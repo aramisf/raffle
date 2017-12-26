@@ -35,6 +35,16 @@ submit_entry entry label = do
           else do
               labelSetText label ("\"" ++ name ++ "\" found on my record")
 
+
+draw_raffle :: Label -> IO()
+draw_raffle label = do
+      drawed_name <- draw_name
+      if (length drawed_name == 0) then do
+        labelSetText label ("List name is empty, can't draw raffle")
+      else do
+        labelSetText label ("Drawed name is: " ++ drawed_name)
+
+
 main :: IO()
 main = do
     initGUI -- inits graphical interface
@@ -75,6 +85,17 @@ main = do
     -- binds the click event to a call to `submit_entry` function
     btn_submit `onClicked` submit_entry input_name label_succ_reg
 
+
+    -- Adding a label for drawing a raffle
+    raffle_label <- labelNew (Just "Click here to draw the raffle")
+    raffle_label_font <- fontDescriptionFromString "Arial Bold 20"
+    widgetModifyFont raffle_label (Just raffle_label_font)
+
+    -- Draw button
+    btn_draw <- buttonNewWithLabel "Draw"
+    btn_draw `onClicked` draw_raffle raffle_label
+
+
     -- creating a new layout
     -- VBox is a container that organises window child widgets in a single column
     -- vBoxNew creates a new VBox with the following parameters:
@@ -87,6 +108,8 @@ main = do
     containerAdd myLayout input_name
     containerAdd myLayout btn_submit
     containerAdd myLayout label_succ_reg
+    containerAdd myLayout btn_draw
+    containerAdd myLayout raffle_label
     containerAdd window myLayout
 
 

@@ -1,10 +1,13 @@
 -- module for data handling
 
-module MyData (write_file, name_exists) where
+module MyData (write_file, name_exists, draw_name) where
 
 import Control.Exception
 import System.IO
 import System.IO.Error
+import System.Random
+import System.Directory
+
 
 fileName = "people.txt"
 
@@ -52,3 +55,16 @@ name_exists name = do
         ioError err
 
 
+draw_name :: IO String
+draw_name = do
+      fileExists <- doesFileExist fileName
+      if fileExists then do
+        f <- openFile fileName ReadMode
+        contents <- hGetContents f
+        let names = (lines contents)
+        num <- randomRIO(1::Int, (length names))
+
+        return (names !! (num - 1))
+
+      else do
+        return ""
