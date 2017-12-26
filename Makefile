@@ -1,10 +1,10 @@
 GHC = ghc
-GUI = gui
+BIN = gui
 
 %: %.hs
-	$(GHC) $<
+	@$(GHC) $<
 
 clean:
 	@printf "Erasing compiled files..."
-	@rm $(GUI) *.o *.hi
-	@printf "\tdone\n"
+	@rm $(BIN) *.o *.hi
+	@printf "done\n"
