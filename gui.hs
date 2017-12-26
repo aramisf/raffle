@@ -19,16 +19,21 @@ submit_entry entry label = do
     name <- entryGetText entry
     if (name == "") then do
         labelSetText label ("Empty name, please try again")
+
     else do
+
       if ((length name) > 78) then do
           labelSetText label ("Maximum name lenght is 78 characters")
+
       else do
           name_exists_bool <- name_exists name
+
           if not (name_exists_bool) then do
               write_file name
               labelSetText label ("\"" ++ name ++ "\" successfully recorded")
+
           else do
-              labelSetText label ("Name already recorded")
+              labelSetText label ("\"" ++ name ++ "\" found on my record")
 
 main :: IO()
 main = do

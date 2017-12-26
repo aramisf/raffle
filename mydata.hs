@@ -6,7 +6,7 @@ import Control.Exception
 import System.IO
 import System.IO.Error
 
-fileName = fileName
+fileName = "people.txt"
 
 write_file :: String -> IO()
 write_file name = do
@@ -31,19 +31,23 @@ name_exists name = do
       {
         f <- openFile fileName ReadMode;
         names <- hGetContents f;
+
         if (contains name (lines names)) then do
           hClose f;
           return True
+
         else do
           hClose f;
           return False
       }
+
       handle_error err = if isDoesNotExistError err then do
       {
         f <- openFile fileName WriteMode;
         hClose f;
         return False
       }
+
       else
         ioError err
 
